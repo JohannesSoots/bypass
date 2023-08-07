@@ -526,20 +526,6 @@ defmodule BypassTest do
     bypass
   end
 
-  test "Bypass.verify_expectations! - with ExUnit it will raise an exception" do
-    bypass = Bypass.open()
-
-    Bypass.expect_once(bypass, fn conn ->
-      Plug.Conn.send_resp(conn, 200, "")
-    end)
-
-    assert {:ok, 200, ""} = request(bypass.port)
-
-    assert_raise RuntimeError, "Not available in ExUnit, as it's configured automatically.", fn ->
-      Bypass.verify_expectations!(bypass)
-    end
-  end
-
   test "Bypass.verify_expectations! - with ESpec it will check if the expectations are being met" do
     Mix.Config.persist(bypass: [test_framework: :espec])
 
